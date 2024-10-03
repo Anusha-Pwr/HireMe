@@ -9,6 +9,7 @@ import Job from "./pages/Job";
 import PostJob from "./pages/PostJob";
 import SavedJobs from "./pages/SavedJobs";
 import MyJobs from "./pages/MyJobs";
+import { ThemeProvider } from './components/ThemeProvider';
 
 function App() {
 
@@ -49,9 +50,9 @@ function App() {
   ])
 
   return (
-    <>
+    <ThemeProvider>
       <RouterProvider router={router} />
-    </>
+    </ThemeProvider>
   )
 }
 
