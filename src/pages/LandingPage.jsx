@@ -109,4 +109,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-// flex gap-5 sm:gap-20 items-center
