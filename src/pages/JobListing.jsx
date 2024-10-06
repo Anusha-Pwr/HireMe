@@ -47,7 +47,7 @@ const JobListing = () => {
           {jobsData?.length ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {jobsData.map((job) => (
-                <JobCard key={job.id} job={job} />
+                <JobCard key={job.id} job={job} savedInitially={job?.saved?.length > 0} />
               ))}
             </div>
           ) : (
