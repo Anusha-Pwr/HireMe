@@ -44,7 +44,7 @@ const JobCard = ({
   }
 
   return (
-    <Card>
+    <Card className="flex flex-col">
       <CardHeader>
         <CardTitle className="flex justify-between font-bold">
           {job.title}
@@ -58,7 +58,7 @@ const JobCard = ({
         </CardTitle>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-4">
+      <CardContent className="flex flex-col gap-4 flex-1">
         <div className="flex justify-between">
           {job.company && <img src={job.company.logo_url} className="h-6" />}
           <div className="flex gap-2 items-center">

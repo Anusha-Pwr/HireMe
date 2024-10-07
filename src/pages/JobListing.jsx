@@ -7,6 +7,16 @@ import JobCard from "../components/JobCard";
 import { getCompanies } from "../api/apiCompanies";
 import { Input } from "@/components/ui/input";
 import { Button } from "../components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { State } from "country-state-city";
 
 const JobListing = () => {
   const [location, setLocation] = useState("");
@@ -18,7 +28,7 @@ const JobListing = () => {
     loading: jobsLoading,
     error,
     fn: fnGetJobs,
-  } = useFetch(getJobs, {location, company_id, searchQuery});
+  } = useFetch(getJobs, { location, company_id, searchQuery });
 
   const {
     data: companiesData,
@@ -27,6 +37,12 @@ const JobListing = () => {
   } = useFetch(getCompanies);
 
   const { isLoaded } = useSession();
+
+  useEffect(() => {
+    if(isLoaded) {
+      fnGetCompanies();
+    }
+  }, [isLoaded]);
 
   useEffect(() => {
     if (isLoaded) {
@@ -43,6 +59,12 @@ const JobListing = () => {
     }
   }
 
+  function clearFiltersHandler() {
+    setSearchQuery("");
+    setCompany_id("");
+    setLocation("");
+  }
+
   if (!isLoaded)
     return <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />;
 
@@ -53,7 +75,7 @@ const JobListing = () => {
       </h1>
 
       {/* add filters */}
-      <form onSubmit={submitSearchHandler} className="h-14 flex gap-2">
+      <form onSubmit={submitSearchHandler} className="h-14 flex gap-2 mb-3">
         <Input
           type="text"
           placeholder="Search jobs by title..."
@@ -64,6 +86,40 @@ const JobListing = () => {
           Search
         </Button>
       </form>
+
+      <div className="flex flex-col sm:flex-row gap-2">
+        <Select value={location} onValueChange={(value) => setLocation(value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Filter by Location" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {State.getStatesOfCountry("IN").map(({ name }) => (
+                <SelectItem value={name} key={name}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Select value={company_id} onValueChange={(value) => setCompany_id(value)}>
+          <SelectTrigger>
+            <SelectValue placeholder="Filter by Company" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {companiesData?.map(({ name, id }) => (
+                <SelectItem value={id} key={name}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <Button variant="destructive" onClick={clearFiltersHandler} className="sm:w-1/2">Clear Filters</Button>
+      </div>
 
       {jobsLoading && (
         <BarLoader className="mt-4" width={"100%"} color="#7b68ee" />
