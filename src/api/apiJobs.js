@@ -3,7 +3,7 @@ import supabaseClient from "../utils/supabase";
 export async function getJobs(token, { location, company_id, searchQuery }) {
   const supabase = await supabaseClient(token);
 
-  let query = await supabase
+  let query = supabase
     .from("jobs")
     .select("*, company: companies(name, logo_url), saved: saved_jobs(id)");
 
@@ -16,10 +16,13 @@ export async function getJobs(token, { location, company_id, searchQuery }) {
   }
 
   if (searchQuery) {
+    console.log("present");
+    console.log(searchQuery);
     query = query.ilike("title", `%${searchQuery}%`); // case insensitive search in the 'title' column
   }
 
-  const { data, error } = query;
+  console.log(query);
+  const { data, error } = await query;
 
   if (error) {
     console.log("Error fetching jobs:", error);
@@ -43,6 +46,7 @@ export async function saveJob(token, alreadySaved, saveJobData) {
       return null;
     }
 
+    console.log(data);
     return data;
   } else {
     const { data, error: insertError } = await supabase
@@ -55,6 +59,7 @@ export async function saveJob(token, alreadySaved, saveJobData) {
       return null;
     }
 
+    console.log(data);
     return data;
   }
 }
