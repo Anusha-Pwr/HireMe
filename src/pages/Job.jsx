@@ -1,11 +1,18 @@
 import React, { useEffect } from "react";
 import useFetch from "../hooks/useFetch";
-import { getSingleJob } from "../api/apiJobs";
+import { getSingleJob, updateHiringStatus } from "../api/apiJobs";
 import { useParams } from "react-router-dom";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
 import { Briefcase, DoorClosed, DoorOpen, MapPinIcon } from "lucide-react";
 import MDEditor from "@uiw/react-md-editor";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Job = () => {
   const { id } = useParams();
@@ -21,11 +28,19 @@ const Job = () => {
     job_id: id,
   });
 
+  const {loading: hiringStatusLoading, fn: fnUpdateHiringStatus} = useFetch(updateHiringStatus, {job_id: id});
+
   useEffect(() => {
     if (isLoaded) {
       fnGetSingleJob();
     }
   }, [isLoaded]);
+
+  async function hiringStatusHandler(value) {
+    const isOpen = value==="open";
+    await fnUpdateHiringStatus(isOpen);
+    fnGetSingleJob();
+  }
 
   if (!isLoaded || jobLoading) {
     return <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />;
@@ -70,12 +85,33 @@ const Job = () => {
       </div>
 
       {/* hiring status */}
+      {hiringStatusLoading && <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />}
+      {jobData?.recruiter_id === user?.id && (
+        <Select onValueChange={hiringStatusHandler}>
+          <SelectTrigger className={`w-full ${jobData?.isOpen ? "bg-green-950" : "bg-red-950"}`}>
+            <SelectValue
+              placeholder={`Hiring Status ${
+                jobData?.isOpen ? "(Open)" : "(Closed)"
+              }`}
+            />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="open">Open</SelectItem>
+            <SelectItem value="closed">Closed</SelectItem>
+          </SelectContent>
+        </Select>
+      )}
 
       <h2 className="text-2xl sm:text-3xl font-bold">About the Job</h2>
       <p className="sm:text-lg">{jobData?.description}</p>
 
-      <h2 className="text-2xl sm:text-3xl font-bold">What we are looking for?</h2>
-      <MDEditor.Markdown source={jobData?.requirements} className="bg-transparent" />
+      <h2 className="text-2xl sm:text-3xl font-bold">
+        What we are looking for?
+      </h2>
+      <MDEditor.Markdown
+        source={jobData?.requirements}
+        className="bg-transparent"
+      />
 
       {/* render applications */}
     </div>
