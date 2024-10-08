@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ApplyJobDrawer from "../components/ApplyJobDrawer";
 
 const Job = () => {
   const { id } = useParams();
@@ -28,7 +29,10 @@ const Job = () => {
     job_id: id,
   });
 
-  const {loading: hiringStatusLoading, fn: fnUpdateHiringStatus} = useFetch(updateHiringStatus, {job_id: id});
+  const { loading: hiringStatusLoading, fn: fnUpdateHiringStatus } = useFetch(
+    updateHiringStatus,
+    { job_id: id }
+  );
 
   useEffect(() => {
     if (isLoaded) {
@@ -37,7 +41,7 @@ const Job = () => {
   }, [isLoaded]);
 
   async function hiringStatusHandler(value) {
-    const isOpen = value==="open";
+    const isOpen = value === "open";
     await fnUpdateHiringStatus(isOpen);
     fnGetSingleJob();
   }
@@ -85,10 +89,16 @@ const Job = () => {
       </div>
 
       {/* hiring status */}
-      {hiringStatusLoading && <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />}
+      {hiringStatusLoading && (
+        <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />
+      )}
       {jobData?.recruiter_id === user?.id && (
         <Select onValueChange={hiringStatusHandler}>
-          <SelectTrigger className={`w-full ${jobData?.isOpen ? "bg-green-950" : "bg-red-950"}`}>
+          <SelectTrigger
+            className={`w-full ${
+              jobData?.isOpen ? "bg-green-950" : "bg-red-950"
+            }`}
+          >
             <SelectValue
               placeholder={`Hiring Status ${
                 jobData?.isOpen ? "(Open)" : "(Closed)"
@@ -114,6 +124,16 @@ const Job = () => {
       />
 
       {/* render applications */}
+      {jobData?.recruiter_id !== user?.id && (
+        <ApplyJobDrawer
+          job={jobData}
+          user={user}
+          fetchJob={fnGetSingleJob}
+          applied={jobData?.applications?.find(
+            (application) => application?.candidate_id === user?.id
+          )}
+        />
+      )}
     </div>
   );
 };
