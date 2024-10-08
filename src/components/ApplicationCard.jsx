@@ -1,8 +1,31 @@
 import React from "react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Boxes, BriefcaseBusiness, Download, School } from "lucide-react";
+import useFetch from "../hooks/useFetch";
+import { updateApplicationStatus } from "../api/apiApplications";
+import { BarLoader } from "react-spinners";
 
 const ApplicationCard = ({ application, isCandidate = false }) => {
+  const {
+    loading,
+    error,
+    fn: fnUpdateApplicationStatus,
+  } = useFetch(updateApplicationStatus, {
+    job_id: application?.job_id,
+  });
 
   function resumeDownloadHandler() {
     const link = document.createElement("a");
@@ -11,8 +34,14 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
     link.click();
   }
 
+  async function applicationStatusHandler(status) {
+    await fnUpdateApplicationStatus(status);
+    fnUpdateApplicationStatus();
+  }
+
   return (
     <Card>
+      {loading && <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />}
       <CardHeader>
         <CardTitle className="flex justify-between font-bold">
           {isCandidate
@@ -28,22 +57,42 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
 
       <CardContent className="flex flex-col gap-4 flex-1">
         <div className="flex flex-col md:flex-row justify-between">
-            <div className="flex gap-2 items-center">
-                <BriefcaseBusiness size={15} /> {application?.experience} years of experience
-            </div>
-            <div className="flex gap-2 items-center">
-                <School size={15} /> {application?.education}
-            </div>
-            <div className="flex gap-2 items-center">
-                <Boxes size={15} /> {application?.skills}
-            </div>
+          <div className="flex gap-2 items-center">
+            <BriefcaseBusiness size={15} /> {application?.experience} years of
+            experience
+          </div>
+          <div className="flex gap-2 items-center">
+            <School size={15} /> {application?.education}
+          </div>
+          <div className="flex gap-2 items-center">
+            <Boxes size={15} /> {application?.skills}
+          </div>
         </div>
         <hr />
       </CardContent>
 
       <CardFooter className="flex justify-between">
         <span>{new Date(application?.created_at).toLocaleString()}</span>
-        {!isCandidate ? <span className="capitalize font-bold">Status: {application?.status}</span> : <></>}
+        {isCandidate ? (
+          <span className="capitalize font-bold">
+            Status: {application?.status}
+          </span>
+        ) : (
+          <Select
+            onValueChange={applicationStatusHandler}
+            defaultValue={application?.status}
+          >
+            <SelectTrigger className="w-52">
+              <SelectValue placeholder="Application Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="applied">Applied</SelectItem>
+              <SelectItem value="interviewing">Interviewing</SelectItem>
+              <SelectItem value="hired">Hired</SelectItem>
+              <SelectItem value="rejected">Rejected</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
       </CardFooter>
     </Card>
   );

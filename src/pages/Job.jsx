@@ -139,7 +139,7 @@ const Job = () => {
       {jobData?.recruiter_id === user?.id &&
         jobData?.applications.length > 0 && (
           <div className="flex flex-col gap-2">
-            <h2 className="text-2xl sm:text-3xl font-bold">Applications</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">Applications</h2>
             {jobData?.applications.map((application) => (
               <ApplicationCard key={application.id} application={application} />
             ))}
