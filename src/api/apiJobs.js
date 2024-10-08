@@ -1,6 +1,7 @@
 import supabaseClient from "../utils/supabase";
 
-export async function getJobs(token, { location, company_id, searchQuery }) {
+// function to get the jobs data from "jobs" supabase table, based on the location, company, or searchQuery, if any.
+export async function getJobs(token, { location, company_id, searchQuery }) { 
   const supabase = await supabaseClient(token);
 
   let query = supabase
@@ -32,6 +33,7 @@ export async function getJobs(token, { location, company_id, searchQuery }) {
   return data;
 }
 
+// function to either save a job if it is not already saved or delete it if already saved.
 export async function saveJob(token, alreadySaved, saveJobData) {
   const supabase = await supabaseClient(token);
 
@@ -64,6 +66,7 @@ export async function saveJob(token, alreadySaved, saveJobData) {
   }
 }
 
+// function to get a job based on job id
 export async function getSingleJob(token, { job_id }) {
   const supabase = await supabaseClient(token);
 
@@ -83,6 +86,7 @@ export async function getSingleJob(token, { job_id }) {
   return data;
 }
 
+// function to update the hiring status of a job by the recuiter
 export async function updateHiringStatus(token, {job_id}, isOpen) {
     const supabase = await supabaseClient(token);
 
@@ -95,3 +99,5 @@ export async function updateHiringStatus(token, {job_id}, isOpen) {
 
     return data;
 }
+
+
