@@ -100,4 +100,16 @@ export async function updateHiringStatus(token, {job_id}, isOpen) {
     return data;
 }
 
+// function to insert a new job created by a recruiter in "jobs" table
+export async function addNewJob(token, _, jobData) {
+    const supabase = await supabaseClient(token);
 
+    const {data, error} = await supabase.from("jobs").insert([jobData]).select();
+
+    if(error) {
+        console.error("Error creating job: ", error);
+        return null; 
+    }
+
+    return data;
+}
