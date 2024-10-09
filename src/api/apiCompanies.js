@@ -16,12 +16,13 @@ export async function getCompanies(token) {
 
 // function to insert new company to "companies" supabase table
 export async function addNewCompany(token, _, companyData) {
+    console.log(companyData);
   const supabase = await supabaseClient(token);
 
   const random = Math.floor(Math.random() * 90000);
   const companyName = `logo-${random}-${companyData.name}`;
 
-  const { error: storageError } = await supabase
+  const { error: storageError } = await supabase.storage
     .from("company-logo")
     .upload(companyName, companyData.logo);
 
