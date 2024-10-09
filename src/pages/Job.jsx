@@ -136,7 +136,7 @@ const Job = () => {
         />
       )}
 
-      {jobData?.recruiter_id === user?.id &&
+      {jobData?.recruiter_id === user?.id &&    // show the applications of candidates if the user is a recruiter
         jobData?.applications.length > 0 && (
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">Applications</h2>
