@@ -1,7 +1,7 @@
 import supabaseClient from "../utils/supabase";
 
 // function to get the jobs data from "jobs" supabase table, based on the location, company, or searchQuery, if any.
-export async function getJobs(token, { location, company_id, searchQuery }) { 
+export async function getJobs(token, { location, company_id, searchQuery }) {
   const supabase = await supabaseClient(token);
 
   let query = supabase
@@ -87,29 +87,52 @@ export async function getSingleJob(token, { job_id }) {
 }
 
 // function to update the hiring status of a job by the recuiter
-export async function updateHiringStatus(token, {job_id}, isOpen) {
-    const supabase = await supabaseClient(token);
+export async function updateHiringStatus(token, { job_id }, isOpen) {
+  const supabase = await supabaseClient(token);
 
-    const {data, error} = await supabase.from("jobs").update({isOpen}).eq("id", job_id).select();
+  const { data, error } = await supabase
+    .from("jobs")
+    .update({ isOpen })
+    .eq("id", job_id)
+    .select();
 
-    if(error) {
-        console.error("Error updating hiring status: ", error);
-        return null; 
-    }
+  if (error) {
+    console.error("Error updating hiring status: ", error);
+    return null;
+  }
 
-    return data;
+  return data;
 }
 
 // function to insert a new job created by a recruiter in "jobs" table
 export async function addNewJob(token, _, jobData) {
-    const supabase = await supabaseClient(token);
+  const supabase = await supabaseClient(token);
 
-    const {data, error} = await supabase.from("jobs").insert([jobData]).select();
+  const { data, error } = await supabase
+    .from("jobs")
+    .insert([jobData])
+    .select();
 
-    if(error) {
-        console.error("Error creating job: ", error);
-        return null; 
-    }
+  if (error) {
+    console.error("Error creating job: ", error);
+    return null;
+  }
 
-    return data;
+  return data;
+}
+
+// function to to get saved jobs of candidate from "saved_jobs" table
+export async function getSavedJobs(token) {
+  const supabase = await supabaseClient(token);
+
+  const {data, error} = await supabase
+    .from("saved_jobs")
+    .select("*, job: jobs(*, company: companies(name, logo_url))");
+
+  if(error) {
+    console.error("Error fetching saved jobs: ", error);
+    return null;
+  }
+
+  return data;
 }
