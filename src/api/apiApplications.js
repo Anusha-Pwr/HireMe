@@ -1,6 +1,7 @@
 import supabaseClient, { supabaseUrl } from "../utils/supabase";
 
-export async function applyToJob(token, _, candidateData) {      // function to submit the application data to supabase "applications" table
+export async function applyToJob(token, _, candidateData) {
+  // function to submit the application data to supabase "applications" table
   const supabase = await supabaseClient(token);
 
   const random = Math.floor(Math.random() * 90000);
@@ -36,15 +37,35 @@ export async function applyToJob(token, _, candidateData) {      // function to 
   return data;
 }
 
-export async function updateApplicationStatus(token, {job_id}, status) {
-    const supabase = await supabaseClient(token);
+export async function updateApplicationStatus(token, { job_id }, status) {
+  const supabase = await supabaseClient(token);
 
-    const {data, error} = await supabase.from("applications").update({status}).eq("job_id", job_id).select();
+  const { data, error } = await supabase
+    .from("applications")
+    .update({ status })
+    .eq("job_id", job_id)
+    .select();
 
-    if(error || data.length===0) {
-        console.error("Error updating application status: ", error);
-        return null;
-    }
+  if (error || data.length === 0) {
+    console.error("Error updating application status: ", error);
+    return null;
+  }
 
-    return data;
+  return data;
+}
+
+export async function getApplications(token, { user_id }) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("applications")
+    .select("*, job: jobs(title, company: companies(name))")
+    .eq("candidate_id", user_id);
+
+  if(error) {
+    console.error("Error fetching applications: ", error);
+    return null;
+  }
+
+  return data;
 }
