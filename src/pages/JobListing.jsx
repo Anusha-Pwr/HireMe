@@ -52,11 +52,11 @@ const JobListing = () => {
 
   function submitSearchHandler(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const query = formData.get("search-query");
-    if (query) {
-      setSearchQuery(query);
-    }
+    // const formData = new FormData(e.target);
+    // const query = formData.get("search-query");
+    // if (query) {
+    //   setSearchQuery(query);
+    // }
   }
 
   function clearFiltersHandler() {
@@ -80,6 +80,8 @@ const JobListing = () => {
           type="text"
           placeholder="Search jobs by title..."
           name="search-query"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="h-full flex-1 px-4 text-md"
         />
         <Button type="submit" variant="blue" className="h-full sm:w-28">
@@ -138,7 +140,7 @@ const JobListing = () => {
               ))}
             </div>
           ) : (
-            <div>No Jobs Found. 👀</div>
+            <div className="mt-4">No Jobs Found. 👀</div>
           )}
         </div>
       )}

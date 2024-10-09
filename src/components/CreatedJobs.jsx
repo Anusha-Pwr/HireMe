@@ -34,7 +34,7 @@ const CreatedJobs = () => {
           <JobCard
             key={index}
             job={myJob}
-            savedInitially={myJob?.saved?.length > 0}
+            onSaveJob={fnGetMyJobs}
             isMyJob
           />
         ))

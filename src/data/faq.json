@@ -9,7 +9,7 @@
     },
     {
       "question": "How can I search for jobs?",
-      "answer": "Job seekers can search for jobs by keywords, location, category, and other filters using the search bar on the homepage or the dedicated job search page."
+      "answer": "Job seekers can search for jobs by keywords, location, category, and other filters using the search bar on the dedicated job search page."
     },
     {
       "question": "How do I apply for a job?",
@@ -21,6 +21,6 @@
     },
     {
       "question": "How do I track my job applications?",
-      "answer": "Job seekers can track the status of their applications from the 'Applications' section in their profile. This section provides updates on the progress of each application."
+      "answer": "Job seekers can track the status of their applications from the 'My Jobs' section in their profile. This section provides updates on the progress of each application."
     }
   ]
