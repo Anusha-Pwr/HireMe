@@ -125,12 +125,29 @@ export async function addNewJob(token, _, jobData) {
 export async function getSavedJobs(token) {
   const supabase = await supabaseClient(token);
 
-  const {data, error} = await supabase
+  const { data, error } = await supabase
     .from("saved_jobs")
     .select("*, job: jobs(*, company: companies(name, logo_url))");
 
-  if(error) {
+  if (error) {
     console.error("Error fetching saved jobs: ", error);
+    return null;
+  }
+
+  return data;
+}
+
+// function to fetch created jobs of a recruiter based on recruiter_id
+export async function getMyJobs(token, { recruiter_id }) {
+  const supabase = await supabaseClient(token);
+
+  const { data, error } = await supabase
+    .from("jobs")
+    .select("*, company: companies(name, logo_url)")
+    .eq("recruiter_id", recruiter_id);
+
+  if (error) {
+    console.error("Error fetching created jobs: ", error);
     return null;
   }
 

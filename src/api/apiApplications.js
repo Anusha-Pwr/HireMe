@@ -54,6 +54,7 @@ export async function updateApplicationStatus(token, { job_id }, status) {
   return data;
 }
 
+// function to get applications of a candidate based on candidate_id
 export async function getApplications(token, { user_id }) {
   const supabase = await supabaseClient(token);
 
