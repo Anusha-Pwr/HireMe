@@ -41,6 +41,8 @@ const JobCard = ({
       user_id: user.id,
       job_id: job.id,
     });
+
+    onSaveJob();
   }
 
   return (
