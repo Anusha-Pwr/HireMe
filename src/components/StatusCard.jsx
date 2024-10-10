@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
-const ApplicationStatusCard = ({
+const StatusCard = ({
   status,
   count,
   bgColor,
@@ -25,4 +25,4 @@ const ApplicationStatusCard = ({
   );
 };
 
-export default ApplicationStatusCard;
+export default StatusCard;

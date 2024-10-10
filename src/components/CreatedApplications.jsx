@@ -4,7 +4,7 @@ import useFetch from "../hooks/useFetch";
 import { getApplications } from "../api/apiApplications";
 import { BarLoader } from "react-spinners";
 import ApplicationCard from "./ApplicationCard";
-import ApplicationStatusCard from "./ApplicationStatusCard";
+import StatusCard from "./StatusCard";
 
 const CreatedApplications = () => {
   const { user, isLoaded } = useUser();
@@ -57,7 +57,7 @@ const CreatedApplications = () => {
       </span>
 
       <div className="flex flex-col gap-2 sm:gap-4 sm:flex-row pb-4">
-        <ApplicationStatusCard
+        <StatusCard
           status="Applied"
           count={appliedCount}
           bgColor="bg-gray-300"
@@ -67,7 +67,7 @@ const CreatedApplications = () => {
           isSelected={selectedStatus === "applied"}
           onClick={() => setSelectedStatus("applied")}
         />
-        <ApplicationStatusCard
+        <StatusCard
           status="Interviewing"
           count={interviewingCount}
           bgColor="bg-blue-500"
@@ -77,7 +77,7 @@ const CreatedApplications = () => {
           isSelected={selectedStatus === "interviewing"}
           onClick={() => setSelectedStatus("interviewing")}
         />
-        <ApplicationStatusCard
+        <StatusCard
           status="Hired"
           count={hiredCount}
           bgColor="bg-green-500"
@@ -87,7 +87,7 @@ const CreatedApplications = () => {
           isSelected={selectedStatus === "hired"}
           onClick={() => setSelectedStatus("hired")}
         />
-        <ApplicationStatusCard
+        <StatusCard
           status="Rejected"
           count={rejectedCount}
           bgColor="bg-red-500"

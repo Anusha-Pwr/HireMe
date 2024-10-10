@@ -4,7 +4,7 @@ import useFetch from "../hooks/useFetch";
 import { getMyJobs } from "../api/apiJobs";
 import { BarLoader } from "react-spinners";
 import JobCard from "./JobCard";
-import ApplicationStatusCard from "./ApplicationStatusCard";
+import StatusCard from "./StatusCard";
 
 const CreatedJobs = () => {
   const { user, isLoaded } = useUser();
@@ -92,7 +92,7 @@ const CreatedJobs = () => {
       </span>
 
       <div className="flex flex-col gap-2 sm:gap-4 sm:flex-row pb-4">
-        <ApplicationStatusCard
+        <StatusCard
           status="Open"
           count={openJobsCount}
           bgColor="bg-gray-300"
@@ -102,7 +102,7 @@ const CreatedJobs = () => {
           isSelected={jobStatus === "open" && activeFilter === "jobStatus"}
           onClick={() => jobStatusHandler("open")}
         />
-        <ApplicationStatusCard
+        <StatusCard
           status="Closed"
           count={closedJobsCount}
           bgColor="bg-red-500"
@@ -112,7 +112,7 @@ const CreatedJobs = () => {
           isSelected={jobStatus === "closed" && activeFilter === "jobStatus"}
           onClick={() => jobStatusHandler("closed")}
         />
-        <ApplicationStatusCard
+        <StatusCard
           status="In-Progress"
           count={inProgressCount}
           bgColor="bg-blue-500"
@@ -125,7 +125,7 @@ const CreatedJobs = () => {
           }
           onClick={() => applicationStatusHandler("in-progress")}
         />
-        <ApplicationStatusCard
+        <StatusCard
           status="Filled"
           count={filledCount}
           bgColor="bg-green-500"
