@@ -52,7 +52,10 @@ const CreatedApplications = () => {
 
   return (
     <div className="flex flex-col">
-    <span className="text-2xl font-semibold mb-4 mt-4">Total Applications: {applicationsData?.length}</span>
+      <span className="text-2xl font-semibold mb-4 mt-4">
+        Total Applications: {applicationsData?.length}
+      </span>
+
       <div className="flex flex-col gap-2 sm:gap-4 sm:flex-row pb-4">
         <ApplicationStatusCard
           status="Applied"
@@ -95,14 +98,19 @@ const CreatedApplications = () => {
           onClick={() => setSelectedStatus("rejected")}
         />
       </div>
+
       <div className="flex flex-col gap-2">
-        {filteredApplications?.map((application) => (
-          <ApplicationCard
-            key={application.id}
-            application={application}
-            isCandidate
-          />
-        ))}
+        {filteredApplications?.length > 0 ? (
+          filteredApplications?.map((application) => (
+            <ApplicationCard
+              key={application.id}
+              application={application}
+              isCandidate
+            />
+          ))
+        ) : (
+          <div>No Applications yet. 👀</div>
+        )}
       </div>
     </div>
   );

@@ -143,7 +143,7 @@ export async function getMyJobs(token, { recruiter_id }) {
 
   const { data, error } = await supabase
     .from("jobs")
-    .select("*, company: companies(name, logo_url)")
+    .select("*, company: companies(name, logo_url), applications: applications(status)")
     .eq("recruiter_id", recruiter_id);
 
   if (error) {
