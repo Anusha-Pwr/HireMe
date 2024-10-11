@@ -21,6 +21,8 @@ const JobCard = ({
   onSaveJob = () => {},
 }) => {
   const [saved, setSaved] = useState(savedInitially); // state to display whether the job is saved or not
+  console.log(savedInitially);
+  console.log(saved);
 
   const { user } = useUser();
 
@@ -44,6 +46,11 @@ const JobCard = ({
       setSaved(savedJob?.length > 0); // if savedJob is not an array of objects (job deleted from saved jobs), saved is set to false
     }
   }, [savedJob]);
+
+  useEffect(() => {
+    // Update the saved state whenever the savedInitially prop changes
+    setSaved(savedInitially);
+  }, [savedInitially]);
 
   async function saveJobHandler() {
     await fnSaveJob({

@@ -87,7 +87,7 @@ const ApplyJobDrawer = ({ job, user, fetchJob, applied = false }) => {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>
-            Apply for ${job?.title} at ${job?.company?.name}
+            Apply for {job?.title} at {job?.company?.name}
           </DrawerTitle>
           <DrawerDescription>Please fill the form below.</DrawerDescription>
         </DrawerHeader>

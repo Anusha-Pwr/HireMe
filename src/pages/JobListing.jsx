@@ -7,21 +7,35 @@ import JobCard from "../components/JobCard";
 import { getCompanies } from "../api/apiCompanies";
 import { Input } from "@/components/ui/input";
 import { Button } from "../components/ui/button";
+
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 import { State } from "country-state-city";
 
 const JobListing = () => {
   const [location, setLocation] = useState("");
   const [company_id, setCompany_id] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [currentpage, setCurrentPage] = useState(1); // state for pagination
+  const jobsPerPage = 1;
 
   const {
     data: jobsData,
@@ -39,16 +53,26 @@ const JobListing = () => {
   const { isLoaded } = useSession();
 
   useEffect(() => {
-    if(isLoaded) {
+    if (isLoaded) {
       fnGetCompanies();
     }
   }, [isLoaded]);
 
   useEffect(() => {
     if (isLoaded) {
+      setCurrentPage(1);  // set currentPage to 1 whenever the filters change
       fnGetJobs();
     }
   }, [isLoaded, location, company_id, searchQuery]);
+
+  const filteredJobs = jobsData || [];
+  const totalJobs = filteredJobs?.length || 0;
+  const totalPages = Math.ceil(totalJobs / jobsPerPage);
+
+  // Paginate the filteredJobsData
+  const indexOfLastJob = currentpage * jobsPerPage;
+  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+  const currentJobs = filteredJobs?.slice(indexOfFirstJob, indexOfLastJob);
 
   function submitSearchHandler(e) {
     e.preventDefault();
@@ -63,6 +87,10 @@ const JobListing = () => {
     setSearchQuery("");
     setCompany_id("");
     setLocation("");
+  }
+
+  function pageChangeHandler(page) {
+    setCurrentPage(page);
   }
 
   if (!isLoaded)
@@ -105,7 +133,10 @@ const JobListing = () => {
           </SelectContent>
         </Select>
 
-        <Select value={company_id} onValueChange={(value) => setCompany_id(value)}>
+        <Select
+          value={company_id}
+          onValueChange={(value) => setCompany_id(value)}
+        >
           <SelectTrigger>
             <SelectValue placeholder="Filter by Company" />
           </SelectTrigger>
@@ -120,7 +151,13 @@ const JobListing = () => {
           </SelectContent>
         </Select>
 
-        <Button variant="destructive" onClick={clearFiltersHandler} className="sm:w-1/2">Clear Filters</Button>
+        <Button
+          variant="destructive"
+          onClick={clearFiltersHandler}
+          className="sm:w-1/2"
+        >
+          Clear Filters
+        </Button>
       </div>
 
       {jobsLoading && (
@@ -129,9 +166,9 @@ const JobListing = () => {
 
       {!jobsLoading && (
         <div>
-          {jobsData?.length ? (
+          {currentJobs?.length ? (
             <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {jobsData.map((job, index) => (
+              {currentJobs?.map((job, index) => (
                 <JobCard
                   key={index}
                   job={job}
@@ -144,6 +181,49 @@ const JobListing = () => {
           )}
         </div>
       )}
+
+      <Pagination className="mt-8">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              href="#"
+              onClick={() => {
+                pageChangeHandler(currentpage - 1);
+              }}
+              className={
+                currentpage === 1
+                  ? "pointer-events-none opacity-50 cursor-not-allowed"
+                  : ""
+              }
+            />
+          </PaginationItem>
+
+          {/* dynamic pagination links */}
+          {Array.from({ length: totalPages }, (_, index) => (
+            <PaginationItem key={index}>
+              <PaginationLink
+                href="#"
+                isActive={index + 1 === currentpage}
+                onClick={() => pageChangeHandler(index + 1)}
+              >
+                {index + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+
+          <PaginationItem>
+            <PaginationNext
+              href="#"
+              onClick={() => pageChangeHandler(currentpage + 1)}
+              className={
+                currentpage === totalPages
+                  ? "pointer-events-none opacity-50 cursor-not-allowed"
+                  : ""
+              }
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 };
