@@ -5,7 +5,7 @@ import Header from "../components/Header";
 export default function AppLayout() {
   return (
     <>
-      <div className="grid-container"></div>
+      <div className="background-container"></div>
       <main className="min-h-screen container">
         <Header />
         <Outlet />

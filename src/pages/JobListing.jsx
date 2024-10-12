@@ -35,7 +35,7 @@ const JobListing = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [currentpage, setCurrentPage] = useState(1); // state for pagination
-  const jobsPerPage = 1;
+  const jobsPerPage = 6;
 
   const {
     data: jobsData,
