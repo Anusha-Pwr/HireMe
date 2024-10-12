@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const OnBoarding = () => {
   const { user, isLoaded } = useUser();
-  console.log(user);
+  // console.log(user);
 
   const navigate = useNavigate();
 

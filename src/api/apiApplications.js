@@ -12,7 +12,7 @@ export async function applyToJob(token, _, candidateData) {
     .upload(fileName, candidateData.resume);
 
   if (storageError) {
-    console.log("error here");
+    // console.log("error here");
     console.log("Error uploading resume: ", storageError);
     return null;
   }
@@ -37,6 +37,7 @@ export async function applyToJob(token, _, candidateData) {
   return data;
 }
 
+// function to update application status of a candidate by the recruiter based on job id
 export async function updateApplicationStatus(token, { job_id }, status) {
   const supabase = await supabaseClient(token);
 

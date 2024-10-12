@@ -17,12 +17,12 @@ export async function getJobs(token, { location, company_id, searchQuery }) {
   }
 
   if (searchQuery) {
-    console.log("present");
-    console.log(searchQuery);
+    // console.log("present");
+    // console.log(searchQuery);
     query = query.ilike("title", `%${searchQuery}%`); // case insensitive search in the 'title' column
   }
 
-  console.log(query);
+  // console.log(query);
   const { data, error } = await query;
 
   if (error) {
@@ -48,7 +48,7 @@ export async function saveJob(token, alreadySaved, saveJobData) {
       return null;
     }
 
-    console.log(data);
+    // console.log(data);
     return data;
   } else {
     const { data, error: insertError } = await supabase
@@ -61,7 +61,7 @@ export async function saveJob(token, alreadySaved, saveJobData) {
       return null;
     }
 
-    console.log(data);
+    // console.log(data);
     return data;
   }
 }

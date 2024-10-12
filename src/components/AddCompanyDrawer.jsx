@@ -62,9 +62,9 @@ const AddCompanyDrawer = ({ fetchCompanies }) => {
   return (
     <Drawer>
       <DrawerTrigger>
-        <Button type="button" variant="secondary" size="sm">
-          Add Company
-        </Button>
+          <Button type="button" variant="secondary" size="sm">
+            Add Company
+          </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
@@ -89,7 +89,9 @@ const AddCompanyDrawer = ({ fetchCompanies }) => {
           </Button>
         </form>
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
-        {errors.logo_url && <p className="text-red-500">{errors.logo_url.message}</p>}
+        {errors.logo_url && (
+          <p className="text-red-500">{errors.logo_url.message}</p>
+        )}
 
         {errorAddCompany && (
           <p className="text-red-500">{errorAddCompany?.message}</p>

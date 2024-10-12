@@ -21,8 +21,8 @@ const JobCard = ({
   onSaveJob = () => {},
 }) => {
   const [saved, setSaved] = useState(savedInitially); // state to display whether the job is saved or not
-  console.log(savedInitially);
-  console.log(saved);
+  // console.log(savedInitially);
+  // console.log(saved);
 
   const { user } = useUser();
 

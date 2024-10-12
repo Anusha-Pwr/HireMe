@@ -48,8 +48,8 @@ const LandingPage = () => {
           </Button>
         </Link>
       </div>
+      
       {/* carousel */}
-
       <Carousel
         plugins={[
           Autoplay({
@@ -70,9 +70,9 @@ const LandingPage = () => {
           ))}
         </CarouselContent>
       </Carousel>
+      
       {/* banner */}
-
-      <img src="/HireMe-banner.png" alt="banner image" className="" />
+      <img src="/HireMe-banner.png" alt="banner image" className="rounded-md" />
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* cards */}

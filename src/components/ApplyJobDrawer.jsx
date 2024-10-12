@@ -48,7 +48,7 @@ const ApplyJobDrawer = ({ job, user, fetchJob, applied = false }) => {
     formState: { errors },
     control,
     handleSubmit,
-    reset
+    reset,
   } = useForm({
     resolver: zodResolver(schema),
   });
@@ -76,13 +76,13 @@ const ApplyJobDrawer = ({ job, user, fetchJob, applied = false }) => {
   return (
     <Drawer open={applied ? false : undefined}>
       <DrawerTrigger asChild>
-        <Button
-          size="lg"
-          variant={job?.isOpen && !applied ? "blue" : "destructive"}
-          disabled={!job?.isOpen || applied}
-        >
-          {job?.isOpen ? (applied ? "Applied" : "Apply") : "Hiring Closed"}
-        </Button>
+          <Button
+            size="lg"
+            variant={job?.isOpen && !applied ? "blue" : "destructive"}
+            disabled={!job?.isOpen || applied}
+          >
+            {job?.isOpen ? (applied ? "Applied" : "Apply") : "Hiring Closed"}
+          </Button>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
@@ -153,7 +153,9 @@ const ApplyJobDrawer = ({ job, user, fetchJob, applied = false }) => {
           {applyError?.message && (
             <p className="text-red-500">{applyError?.message}</p>
           )}
-          {applyLoading && <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />}
+          {applyLoading && (
+            <BarLoader className="mb-4" width={"100%"} color="#7b68ee" />
+          )}
           <Button type="submit" variant="blue" size="lg">
             Apply
           </Button>
