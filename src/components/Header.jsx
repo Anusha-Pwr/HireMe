@@ -29,10 +29,10 @@ const Header = () => {
     <>
       <nav className="py-4 flex justify-between items-center">
         <Link to="/">
-          <img src="/hireme-logo.png" alt="logo image" className="h-20" />
+          <img src="/hireme-logo.png" alt="logo image" className="h-14 sm:h-20" />
         </Link>
 
-        <div className="flex gap-8">
+        <div className="flex gap-4 sm:gap-8">
           <SignedOut>
             <Button variant="outline" onClick={() => setShowSignIn(true)}>
               Login
@@ -41,8 +41,8 @@ const Header = () => {
           <SignedIn>
             {user?.unsafeMetadata?.role === "recruiter" && (
               <Link to="/post-job">
-                <Button variant="purple" className="rounded-full">
-                  <PenBox size={20} className="mr-2" />
+                <Button variant="purple" className="rounded-full text-xs sm:text-sm">
+                  <PenBox className="mr-1 sm:mr-2 w-4 h-4 sm:w-5 sm:h-5" />
                   Post Job
                 </Button>
               </Link>
@@ -50,7 +50,7 @@ const Header = () => {
             <UserButton
               appearance={{
                 elements: {
-                  avatarBox: "w-10 h-10",
+                  avatarBox: "w-9 h-9 sm:w-10 sm:h-10",
                 },
               }}
             >
@@ -73,7 +73,7 @@ const Header = () => {
 
       {showSignIn && (
         <div
-          className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50"
+          className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-10"
           onClick={overlayClickHandler}
         >
           <SignIn
