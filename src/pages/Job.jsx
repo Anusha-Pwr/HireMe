@@ -64,26 +64,26 @@ const Job = () => {
         />
       </div>
 
-      <div className="flex justify-between">
-        <div className="flex gap-2">
-          <MapPinIcon />
+      <div className="flex justify-between items-center text-sm sm:text-base">
+        <div className="flex items-center gap-2">
+          <MapPinIcon className="h-4 w-4 sm:h-6 sm:w-6" />
           {jobData?.location}
         </div>
 
-        <div className="flex gap-2">
-          <Briefcase />
+        <div className="flex items-center gap-2">
+          <Briefcase className="h-4 w-4 sm:h-6 sm:w-6" />
           {jobData?.applications?.length}{" "}
           {`Applicant${jobData?.applications?.length === 1 ? "" : "s"}`}
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           {jobData?.isOpen ? (
             <>
-              <DoorOpen /> Open
+              <DoorOpen className="h-4 w-4 sm:h-6 sm:w-6" /> Open
             </>
           ) : (
             <>
-              <DoorClosed /> Closed
+              <DoorClosed className="h-4 w-4 sm:h-6 sm:w-6" /> Closed
             </>
           )}
         </div>
