@@ -37,7 +37,7 @@ const OnBoarding = () => {
       <h2 className="gradient-title font-extrabold text-7xl sm:text-8xl tracking-tighter">
         I am a...
       </h2>
-      <div className="mt-16 grid grid-cols-2 gap-4 sm:gap-8 w-full md:px-40">
+      <div className="mt-16 grid grid-cols-2 gap-4 sm:gap-8 w-full md:px-16 lg:px-40">
         <Button
           variant="blue"
           className="h-20 sm:h-32 md:h-36 text-xl md:text-2xl"
